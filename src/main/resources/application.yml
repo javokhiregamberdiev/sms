@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: student-management-system
+  datasource:
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/student_management
+      username: postgres
+      password: 12345
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    generate-ddl: true
+
+server:
+  port: 8081
+
+application:
+  serverUrl: localhost:8081
