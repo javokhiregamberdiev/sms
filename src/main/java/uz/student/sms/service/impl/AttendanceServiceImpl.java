@@ -13,7 +13,9 @@ import uz.student.sms.repository.AttendanceRepository;
 import uz.student.sms.repository.StudentRepository;
 import uz.student.sms.service.AttendanceService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public Long create(String cardId) {
         return studentRepository.findByCardId(cardId).map(student -> {
-            Attendance attendance = new Attendance();
+            LocalDateTime startDate = LocalDate.now().atStartOfDay();
+            LocalDateTime endDate = LocalDate.now().atTime(LocalTime.MAX);
+            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new  Attendance());
             attendance.setUserId(student.getUserId());
             attendance.setCheckIn(LocalDateTime.now());
             return attendanceRepository.save(attendance).getId();
@@ -41,7 +45,9 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public Long createForAdmin(AttendanceDTO attendanceDTO) {
         return studentRepository.findById(attendanceDTO.getStudentId()).map(student -> {
-            Attendance attendance = new Attendance();
+            LocalDateTime startDate = attendanceDTO.getDate() == null ? LocalDate.now().atStartOfDay() : attendanceDTO.getDate().toLocalDate().atStartOfDay();
+            LocalDateTime endDate = attendanceDTO.getDate() == null ? LocalDate.now().atTime(LocalTime.MAX) :  attendanceDTO.getDate().toLocalDate().atTime(LocalTime.MAX);
+            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new  Attendance());
             attendance.setUserId(student.getUserId());
             if (attendanceDTO.getDate() != null) {
                 attendance.setCheckIn(attendanceDTO.getDate());
