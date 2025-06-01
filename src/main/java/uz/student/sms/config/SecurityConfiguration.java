@@ -79,6 +79,7 @@ public class SecurityConfiguration {
                         aut.requestMatchers( "/api/login").permitAll()
                                 .requestMatchers("/api/logout").permitAll()
                                 .requestMatchers("/api/public/**").permitAll()
+                                .requestMatchers("/api/attendance/by-card").permitAll()
                                 .requestMatchers("/api/**").authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
