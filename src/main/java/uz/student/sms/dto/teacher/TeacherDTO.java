@@ -1,5 +1,6 @@
 package uz.student.sms.dto.teacher;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import uz.student.sms.dto.UserDTO;
@@ -16,6 +17,7 @@ public class TeacherDTO extends UserDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 23411L;
 
+    @NotNull
     private String speciality;
 
     private Gender gender;

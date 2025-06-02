@@ -1,5 +1,6 @@
 package uz.student.sms.resource;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class AuthResource {
     private AuthService authService;
 
     @PostMapping("/login")
-    public AuthTokenDTO login(@RequestBody LoginDTO loginDTO) {
+    public AuthTokenDTO login(@RequestBody @Valid LoginDTO loginDTO) {
         return authService.login(loginDTO);
     }
 

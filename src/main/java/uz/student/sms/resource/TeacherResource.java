@@ -1,5 +1,6 @@
 package uz.student.sms.resource;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import uz.student.sms.dto.teacher.TeacherDTO;
@@ -17,12 +18,12 @@ public class TeacherResource {
     private final TeacherService teacherService;
 
     @PostMapping
-    public Long create(@RequestBody TeacherDTO teacherDTO) {
+    public Long create(@RequestBody @Valid TeacherDTO teacherDTO) {
         return teacherService.create(teacherDTO);
     }
 
     @PutMapping("/{id}")
-    public Long update(@PathVariable Long id, @RequestBody TeacherDTO teacherDTO) {
+    public Long update(@PathVariable Long id, @RequestBody @Valid TeacherDTO teacherDTO) {
         return teacherService.update(id, teacherDTO);
     }
 

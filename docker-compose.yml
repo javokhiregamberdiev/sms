@@ -8,8 +8,8 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/student_management
-      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/sms
+      SPRING_DATASOURCE_USERNAME: sms_user
       SPRING_DATASOURCE_PASSWORD: 12345
     depends_on:
       - postgres
@@ -17,8 +17,8 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: sms_user
       POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: student_management
+      POSTGRES_DB: sms
     ports:
       - "5432:5432"

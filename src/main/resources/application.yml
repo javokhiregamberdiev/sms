@@ -3,8 +3,8 @@ spring:
     name: student-management-system
   datasource:
     hikari:
-      jdbc-url: jdbc:postgresql://postgres:5432/student_management
-      username: postgres
+      jdbc-url: jdbc:postgresql://postgres:5432/sms
+      username: sms_user
       password: 12345
   jpa:
     show-sql: true

@@ -1,5 +1,6 @@
 package uz.student.sms.resource;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import uz.student.sms.dto.group.GroupDTO;
@@ -16,12 +17,12 @@ public class GroupResource {
     private final GroupService groupService;
 
     @PostMapping
-    public Long create(@RequestBody GroupDTO groupDTO) {
+    public Long create(@RequestBody @Valid GroupDTO groupDTO) {
         return groupService.create(groupDTO);
     }
 
     @PutMapping("/{id}")
-    public Long update(@PathVariable Long id, @RequestBody GroupDTO groupDTO) {
+    public Long update(@PathVariable Long id, @RequestBody @Valid GroupDTO groupDTO) {
         return groupService.update(id, groupDTO);
     }
 

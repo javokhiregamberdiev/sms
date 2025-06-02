@@ -1,5 +1,6 @@
 package uz.student.sms.dto.group;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ public class GroupDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1234526L;
 
+    @NotNull
     private String name;
 
     private Long teacherId;
