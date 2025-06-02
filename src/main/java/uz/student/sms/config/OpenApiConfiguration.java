@@ -17,7 +17,7 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI openAPI() {
-        String serverUrl = "http://localhost:8081/";
+        String serverUrl = "https://airedale-enabling-polliwog.ngrok-free.app/";
         return new OpenAPI()
                 .info(new Info()
                         .title("Student Management System API"))
