@@ -1,6 +1,7 @@
 package uz.student.sms.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -8,17 +9,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import uz.student.sms.dto.ErrorDTO;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> genericExceptionHandler(Exception ex, HttpServletRequest request) {
-        if (StringUtils.isEmpty(ex.getMessage())) {
+        /*if (!StringUtils.hasText(ex.getMessage())) {
             Throwable throwable = ex.getCause();
-            /*if (throwable instanceof AppGlobalException) {
+            if (throwable instanceof AppGlobalException) {
                 return this.getMessage(throwable, request);
-            }*/
-        }
+            }
+        }*/
+        log.info(ex.getCause().toString());
         return get(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
