@@ -35,7 +35,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         return studentRepository.findByCardId(cardId).map(student -> {
             LocalDateTime startDate = LocalDate.now().atStartOfDay();
             LocalDateTime endDate = LocalDate.now().atTime(LocalTime.MAX);
-            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new  Attendance());
+            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new Attendance());
             attendance.setUserId(student.getUserId());
             attendance.setCheckIn(LocalDateTime.now());
             return attendanceRepository.save(attendance).getId();
@@ -46,8 +46,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     public Long createForAdmin(AttendanceDTO attendanceDTO) {
         return studentRepository.findById(attendanceDTO.getStudentId()).map(student -> {
             LocalDateTime startDate = attendanceDTO.getDate() == null ? LocalDate.now().atStartOfDay() : attendanceDTO.getDate().toLocalDate().atStartOfDay();
-            LocalDateTime endDate = attendanceDTO.getDate() == null ? LocalDate.now().atTime(LocalTime.MAX) :  attendanceDTO.getDate().toLocalDate().atTime(LocalTime.MAX);
-            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new  Attendance());
+            LocalDateTime endDate = attendanceDTO.getDate() == null ? LocalDate.now().atTime(LocalTime.MAX) : attendanceDTO.getDate().toLocalDate().atTime(LocalTime.MAX);
+            Attendance attendance = attendanceRepository.findFirstAttendanceOfDay(startDate, endDate, student.getUserId()).orElse(new Attendance());
             attendance.setUserId(student.getUserId());
             if (attendanceDTO.getDate() != null) {
                 attendance.setCheckIn(attendanceDTO.getDate());
