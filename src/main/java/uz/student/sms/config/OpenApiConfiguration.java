@@ -17,7 +17,7 @@ public class OpenApiConfiguration {
 
     @Bean
     public OpenAPI openAPI() {
-        String serverUrl = "http://localhost:8081/";
+        String serverUrl = "http://185.74.5.42:8081/";
         return new OpenAPI()
                 .info(new Info()
                         .title("Student Management System API"))

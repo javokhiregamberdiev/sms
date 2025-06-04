@@ -30,25 +30,25 @@ public class StudentServiceImpl implements StudentService {
 
     private void validation(StudentDTO studentDTO) {
         if (studentDTO.getCardId() == null) {
-            throw new BadRequestException("CardID is reuqired");
+            throw new BadRequestException("CardID is required");
         }
         if (studentDTO.getUsername() == null) {
-            throw new BadRequestException("Username is reuqired");
+            throw new BadRequestException("Username is required");
         }
         if (studentDTO.getPassword() == null) {
-            throw new BadRequestException("Password is reuqired");
+            throw new BadRequestException("Password is required");
         }
         if (studentDTO.getFirstName() == null) {
-            throw new BadRequestException("First name is reuqired");
+            throw new BadRequestException("First name is required");
         }
         if (studentDTO.getLastName() == null) {
-            throw new BadRequestException("Last name is reuqired");
+            throw new BadRequestException("Last name is required");
         }
         if (studentDTO.getPhone() == null) {
-            throw new BadRequestException("Phone is reuqired");
+            throw new BadRequestException("Phone is required");
         }
         if (studentDTO.getEmail() == null) {
-            throw new BadRequestException("Email is reuqired");
+            throw new BadRequestException("Email is required");
         }
         if (studentRepository.findByCardId(studentDTO.getCardId()).isPresent()) {
             throw new BadRequestException("CardID already exists");
