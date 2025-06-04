@@ -8,10 +8,9 @@ import uz.student.sms.domain.Student;
 import uz.student.sms.dto.student.StudentDTO;
 import uz.student.sms.dto.student.StudentDetailDTO;
 import uz.student.sms.dto.student.StudentListDTO;
-import uz.student.sms.repository.CourseRepository;
-import uz.student.sms.repository.GroupRepository;
-import uz.student.sms.repository.RoleRepository;
-import uz.student.sms.repository.StudentRepository;
+import uz.student.sms.exceptions.BadRequestException;
+import uz.student.sms.exceptions.NotFoundException;
+import uz.student.sms.repository.*;
 import uz.student.sms.service.StudentService;
 import uz.student.sms.service.UserService;
 
@@ -27,9 +26,47 @@ public class StudentServiceImpl implements StudentService {
     private final RoleRepository roleRepository;
     private final CourseRepository courseRepository;
     private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
+
+    private void validation(StudentDTO studentDTO) {
+        if (studentDTO.getCardId() == null) {
+            throw new BadRequestException("CardID is reuqired");
+        }
+        if (studentDTO.getUsername() == null) {
+            throw new BadRequestException("Username is reuqired");
+        }
+        if (studentDTO.getPassword() == null) {
+            throw new BadRequestException("Password is reuqired");
+        }
+        if (studentDTO.getFirstName() == null) {
+            throw new BadRequestException("First name is reuqired");
+        }
+        if (studentDTO.getLastName() == null) {
+            throw new BadRequestException("Last name is reuqired");
+        }
+        if (studentDTO.getPhone() == null) {
+            throw new BadRequestException("Phone is reuqired");
+        }
+        if (studentDTO.getEmail() == null) {
+            throw new BadRequestException("Email is reuqired");
+        }
+        if (studentRepository.findByCardId(studentDTO.getCardId()).isPresent()) {
+            throw new BadRequestException("CardID already exists");
+        }
+        if (userRepository.findByUsername(studentDTO.getUsername()).isPresent()) {
+            throw new BadRequestException("Username already exists");
+        }
+        if (userRepository.findByEmail(studentDTO.getEmail()).isPresent()) {
+            throw new BadRequestException("Email already exists");
+        }
+        if (userRepository.findByPhone(studentDTO.getPhone()).isPresent()) {
+            throw new BadRequestException("Phone already exists");
+        }
+    }
 
     @Override
     public Long create(StudentDTO studentDTO) {
+        this.validation(studentDTO);
         Student student = new Student();
         student.setGender(studentDTO.getGender());
         student.setDateOfBirth(studentDTO.getDateOfBirth());
@@ -60,7 +97,7 @@ public class StudentServiceImpl implements StudentService {
             }
             userService.update(student.getUserId(), studentDTO);
             return studentRepository.save(student).getId();
-        }).orElseThrow(() -> new RuntimeException("Student not fount"));
+        }).orElseThrow(() -> new NotFoundException("Student not fount"));
     }
 
     @Override
@@ -83,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
             studentDetailDTO.setCreatedBy(student.getCreatedByAsItemDTO());
             studentDetailDTO.setCardId(student.getCardId());
             return studentDetailDTO;
-        }).orElseThrow(() -> new RuntimeException("Student not found"));
+        }).orElseThrow(() -> new NotFoundException("Student not found"));
     }
 
     @Override

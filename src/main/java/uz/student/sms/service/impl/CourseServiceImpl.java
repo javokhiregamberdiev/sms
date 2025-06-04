@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.student.sms.domain.Course;
 import uz.student.sms.dto.course.CourseDTO;
 import uz.student.sms.dto.course.CourseListingDTO;
+import uz.student.sms.exceptions.NotFoundException;
 import uz.student.sms.repository.CourseRepository;
 import uz.student.sms.service.CourseService;
 
@@ -33,7 +34,7 @@ public class CourseServiceImpl implements CourseService {
                     course.setDescription(courseDTO.getDescription());
                     return courseRepository.save(course).getId();
                 })
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new NotFoundException("Course not found"));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseListingDTO get(Long id) {
         return courseRepository.findById(id).map(Course::toListingDTO)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+                .orElseThrow(() -> new NotFoundException("Course not found"));
     }
 
     @Override

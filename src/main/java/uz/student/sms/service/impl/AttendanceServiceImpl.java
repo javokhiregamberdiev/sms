@@ -1,6 +1,7 @@
 package uz.student.sms.service.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.student.sms.domain.Attendance;
@@ -9,6 +10,7 @@ import uz.student.sms.dto.attendance.AttendanceDTO;
 import uz.student.sms.dto.attendance.AttendanceItemDTO;
 import uz.student.sms.dto.attendance.AttendanceListDTO;
 import uz.student.sms.dto.filter.AttendanceFilter;
+import uz.student.sms.exceptions.NotFoundException;
 import uz.student.sms.repository.AttendanceRepository;
 import uz.student.sms.repository.StudentRepository;
 import uz.student.sms.service.AttendanceService;
@@ -39,7 +41,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendance.setUserId(student.getUserId());
             attendance.setCheckIn(LocalDateTime.now());
             return attendanceRepository.save(attendance).getId();
-        }).orElseThrow(() -> new RuntimeException("Student not found"));
+        }).orElseThrow(() -> new NotFoundException("Student not found", HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -55,7 +57,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 attendance.setCheckIn(LocalDateTime.now());
             }
             return attendanceRepository.save(attendance).getId();
-        }).orElseThrow(() -> new RuntimeException("Student not found"));
+        }).orElseThrow(() -> new NotFoundException("Student not found"));
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uz.student.sms.domain.Group;
 import uz.student.sms.dto.group.GroupDTO;
 import uz.student.sms.dto.group.GroupDetailDTO;
+import uz.student.sms.exceptions.NotFoundException;
 import uz.student.sms.repository.GroupRepository;
 import uz.student.sms.service.GroupService;
 
@@ -34,7 +35,7 @@ public class GroupServiceImpl implements GroupService {
             group.setTeacherId(groupDTO.getTeacherId());
             group.setCourseId(groupDTO.getCourseId());
             return groupRepository.save(group).getId();
-        }).orElseThrow(() -> new RuntimeException("Group not found"));
+        }).orElseThrow(() -> new NotFoundException("Group not found"));
     }
 
     @Override

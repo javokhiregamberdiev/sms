@@ -8,6 +8,7 @@ import uz.student.sms.domain.Teacher;
 import uz.student.sms.dto.teacher.TeacherDTO;
 import uz.student.sms.dto.teacher.TeacherDetailDTO;
 import uz.student.sms.dto.teacher.TeacherListingDTO;
+import uz.student.sms.exceptions.NotFoundException;
 import uz.student.sms.repository.RoleRepository;
 import uz.student.sms.repository.TeacherRepository;
 import uz.student.sms.service.TeacherService;
@@ -49,7 +50,7 @@ public class TeacherServiceImpl implements TeacherService {
             }
             userService.update(teacher.getUserId(), teacherDTO);
             return teacherRepository.save(teacher).getId();
-        }).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        }).orElseThrow(() -> new NotFoundException("Teacher not found"));
     }
 
     @Override
@@ -72,7 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
             teacherDetailDTO.setUsername(teacher.getUser().getUsername());
             teacherDetailDTO.setCreatedBy(teacher.getCreatedByAsItemDTO());
             return teacherDetailDTO;
-        }).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        }).orElseThrow(() -> new NotFoundException("Teacher not found"));
     }
 
     @Override

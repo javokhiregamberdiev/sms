@@ -15,21 +15,27 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> genericExceptionHandler(Exception ex, HttpServletRequest request) {
-        /*if (!StringUtils.hasText(ex.getMessage())) {
-            Throwable throwable = ex.getCause();
-            if (throwable instanceof AppGlobalException) {
-                return this.getMessage(throwable, request);
-            }
-        }*/
-        log.info(ex.getCause().toString());
+        log.info(ex.toString());
         return get(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorDTO> notFoundExceptionHandler(NotFoundException ex, HttpServletRequest request) {
+        log.info(ex.toString());
+        return get(ex.getMessage(), ex.getStatus());
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorDTO> badRequestExceptionHandler(BadRequestException ex, HttpServletRequest request) {
+        log.info(ex.getMessage());
+        return get(ex.getMessage(), ex.getStatus());
     }
 
     private  ResponseEntity<ErrorDTO> get(String message, HttpStatus status) {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setMessage(message);
         errorDTO.setStatus(status.name());
-        return new ResponseEntity<>(errorDTO,  status);
+        return ResponseEntity.status(status).body(errorDTO);
     }
 
 }
