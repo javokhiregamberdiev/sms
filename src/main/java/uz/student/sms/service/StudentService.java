@@ -1,5 +1,6 @@
 package uz.student.sms.service;
 
+import uz.student.sms.dto.filter.BaseFilter;
 import uz.student.sms.dto.student.StudentDTO;
 import uz.student.sms.dto.student.StudentDetailDTO;
 import uz.student.sms.dto.student.StudentListDTO;
@@ -16,5 +17,5 @@ public interface StudentService {
 
     StudentDetailDTO get(Long id);
 
-    List<StudentListDTO> getList();
+    List<StudentListDTO> getList(BaseFilter filter);
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import uz.student.sms.domain.base.DataEntity;
 import uz.student.sms.enums.Gender;
 
@@ -16,6 +17,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE students SET deleted = true WHERE id = ?")
+@SQLRestriction(value = "deleted = 'false'")
 public class Student extends DataEntity {
 
     @Column(name = "gender")

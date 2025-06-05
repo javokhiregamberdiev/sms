@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import uz.student.sms.domain.base.DataEntity;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id = ?")
+@SQLRestriction(value = "deleted = 'false'")
 public class User extends DataEntity {
 
     @Column(name = "username", unique = true, nullable = false)

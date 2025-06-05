@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import uz.student.sms.domain.base.DataEntity;
 import uz.student.sms.dto.ItemDTO;
 import uz.student.sms.dto.course.CourseListingDTO;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE courses SET deleted = true WHERE id = ?")
+@SQLRestriction(value = "deleted = 'false'")
 public class Course extends DataEntity implements Serializable {
 
     @Column(name = "name")

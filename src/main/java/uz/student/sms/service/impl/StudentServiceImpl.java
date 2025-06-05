@@ -3,8 +3,10 @@ package uz.student.sms.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import uz.student.sms.domain.Role;
 import uz.student.sms.domain.Student;
+import uz.student.sms.dto.filter.BaseFilter;
 import uz.student.sms.dto.student.StudentDTO;
 import uz.student.sms.dto.student.StudentDetailDTO;
 import uz.student.sms.dto.student.StudentListDTO;
@@ -14,6 +16,7 @@ import uz.student.sms.repository.*;
 import uz.student.sms.service.StudentService;
 import uz.student.sms.service.UserService;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -124,8 +127,8 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentListDTO> getList() {
-        List<Student> students = studentRepository.findAll();
+    public List<StudentListDTO> getList(BaseFilter filter) {
+        List<Student> students = studentRepository.findStudentsByFilter(filter);
         return students.stream().map(student -> {
             StudentListDTO studentListDTO = new StudentListDTO();
             studentListDTO.setId(student.getId());

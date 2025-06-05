@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Table(name = "attendances")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@SQLRestriction("deleted <> true")
+@SQLRestriction(value = "deleted = 'false'")
 @SQLDelete(sql = "UPDATE attendances SET deleted = true WHERE id = ?")
 public class Attendance extends DataEntity implements Serializable {
 

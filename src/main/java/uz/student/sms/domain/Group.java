@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import uz.student.sms.domain.base.DataEntity;
 import uz.student.sms.dto.group.GroupDetailDTO;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SQLDelete(sql = "UPDATE groups SET deleted = true WHERE id = ?")
+@SQLRestriction(value = "deleted = 'false'")
 public class Group extends DataEntity implements Serializable {
 
     @Column(name = "name")

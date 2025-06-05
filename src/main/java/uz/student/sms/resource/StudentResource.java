@@ -2,7 +2,9 @@ package uz.student.sms.resource;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
+import uz.student.sms.dto.filter.BaseFilter;
 import uz.student.sms.dto.student.StudentDTO;
 import uz.student.sms.dto.student.StudentDetailDTO;
 import uz.student.sms.dto.student.StudentListDTO;
@@ -28,8 +30,8 @@ public class StudentResource {
     }
 
     @GetMapping
-    public List<StudentListDTO> getList() {
-        return studentService.getList();
+    public List<StudentListDTO> getList(@ParameterObject BaseFilter filter) {
+        return studentService.getList(filter);
     }
 
     @GetMapping("/{id}")

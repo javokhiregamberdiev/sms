@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import uz.student.sms.domain.base.DataEntity;
 
 @EqualsAndHashCode(callSuper = true)
@@ -13,6 +14,7 @@ import uz.student.sms.domain.base.DataEntity;
 @Table(name = "roles")
 @Data
 @SQLDelete(sql = "UPDATE roles SET deleted = true WHERE id = ?")
+@SQLRestriction(value = "deleted = 'false'")
 public class Role extends DataEntity {
 
     @Column(name = "role_name", unique = true, nullable = false)
