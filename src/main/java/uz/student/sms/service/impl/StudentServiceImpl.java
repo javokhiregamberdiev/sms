@@ -3,7 +3,6 @@ package uz.student.sms.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import uz.student.sms.domain.Role;
 import uz.student.sms.domain.Student;
 import uz.student.sms.dto.filter.BaseFilter;
@@ -16,8 +15,8 @@ import uz.student.sms.repository.*;
 import uz.student.sms.service.StudentService;
 import uz.student.sms.service.UserService;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -32,39 +31,29 @@ public class StudentServiceImpl implements StudentService {
     private final UserRepository userRepository;
 
     private void validation(StudentDTO studentDTO) {
-        if (studentDTO.getCardId() == null) {
-            throw new BadRequestException("CardID is required");
-        }
-        if (studentDTO.getUsername() == null) {
-            throw new BadRequestException("Username is required");
-        }
-        if (studentDTO.getPassword() == null) {
-            throw new BadRequestException("Password is required");
-        }
-        if (studentDTO.getFirstName() == null) {
-            throw new BadRequestException("First name is required");
-        }
-        if (studentDTO.getLastName() == null) {
-            throw new BadRequestException("Last name is required");
-        }
-        if (studentDTO.getPhone() == null) {
-            throw new BadRequestException("Phone is required");
-        }
-        if (studentDTO.getEmail() == null) {
-            throw new BadRequestException("Email is required");
-        }
-        if (studentRepository.findByCardId(studentDTO.getCardId()).isPresent()) {
-            throw new BadRequestException("CardID already exists");
-        }
-        if (userRepository.findByUsername(studentDTO.getUsername()).isPresent()) {
-            throw new BadRequestException("Username already exists");
-        }
-        if (userRepository.findByEmail(studentDTO.getEmail()).isPresent()) {
-            throw new BadRequestException("Email already exists");
-        }
-        if (userRepository.findByPhone(studentDTO.getPhone()).isPresent()) {
-            throw new BadRequestException("Phone already exists");
-        }
+
+        studentRepository.findByCardId(studentDTO.getCardId()).ifPresent(student -> {
+            if (!Objects.equals(studentDTO.getId(), student.getUserId())) {
+                throw new BadRequestException("CardID already exists");
+            }
+        });
+        userRepository.findByUsername(studentDTO.getUsername()).ifPresent(user -> {
+            if (!Objects.equals(studentDTO.getId(), user.getId())) {
+                throw new BadRequestException("Username already exists");
+            }
+        });
+
+        userRepository.findByEmail(studentDTO.getEmail()).ifPresent(user -> {
+            if (!Objects.equals(studentDTO.getId(), user.getId())) {
+                throw new BadRequestException("Email already exists");
+            }
+        });
+
+        userRepository.findByPhone(studentDTO.getPhone()).ifPresent(user -> {
+            if (!Objects.equals(studentDTO.getId(), user.getId())) {
+                throw new BadRequestException("Phone already exists");
+            }
+        });
     }
 
     @Override
@@ -92,6 +81,8 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Long update(Long id, StudentDTO studentDTO) {
         return studentRepository.findById(id).map(student -> {
+            studentDTO.setId(student.getUserId());
+            this.validation(studentDTO);
             student.setGender(studentDTO.getGender());
             student.setDateOfBirth(studentDTO.getDateOfBirth());
             student.setCardId(studentDTO.getCardId());

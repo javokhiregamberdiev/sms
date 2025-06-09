@@ -4,10 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import uz.student.sms.dto.ErrorDTO;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
@@ -31,7 +34,19 @@ public class GlobalExceptionHandler {
         return get(ex.getMessage(), ex.getStatus());
     }
 
-    private  ResponseEntity<ErrorDTO> get(String message, HttpStatus status) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDTO> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+        ErrorDTO errorDTO = new ErrorDTO();
+        errorDTO.setErrors(errors);
+        errorDTO.setStatus(HttpStatus.BAD_REQUEST.name());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
+    }
+
+    private ResponseEntity<ErrorDTO> get(String message, HttpStatus status) {
         ErrorDTO errorDTO = new ErrorDTO();
         errorDTO.setMessage(message);
         errorDTO.setStatus(status.name());

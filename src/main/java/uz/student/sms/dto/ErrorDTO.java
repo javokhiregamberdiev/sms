@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class ErrorDTO implements Serializable {
 
     private String message;
 
-    private String error;
+    private Map<String, String> errors;
 
     private String status;
 }

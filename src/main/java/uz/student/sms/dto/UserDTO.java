@@ -12,6 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 public class UserDTO implements Serializable {
 
+    private Long id;
+
     @NotNull
     private String username;
 
