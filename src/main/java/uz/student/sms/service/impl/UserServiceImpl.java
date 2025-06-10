@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.student.sms.domain.User;
 import uz.student.sms.dto.UserDTO;
+import uz.student.sms.exceptions.BadRequestException;
 import uz.student.sms.repository.RoleRepository;
 import uz.student.sms.repository.UserRepository;
 import uz.student.sms.service.UserService;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
     public Long create(UserDTO userDTO) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
+        if (userDTO.getPassword() == null) {
+            throw new BadRequestException("Password is required");
+        }
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setPhone(userDTO.getPhone());
         user.setFirstName(userDTO.getFirstName());
@@ -41,7 +45,9 @@ public class UserServiceImpl implements UserService {
     public void update(Long userId, UserDTO userDTO) {
         userRepository.findById(userId).ifPresent(user -> {
             user.setUsername(userDTO.getUsername());
-            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            if (userDTO.getPassword() != null) {
+                user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            }
             user.setPhone(userDTO.getPhone());
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
