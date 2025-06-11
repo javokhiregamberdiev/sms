@@ -104,7 +104,7 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findById(id).map(student -> {
             StudentDetailDTO studentDetailDTO = new StudentDetailDTO();
             studentDetailDTO.setId(student.getId());
-            studentDetailDTO.setFirstName(student.getUser().getPhone());
+            studentDetailDTO.setFirstName(student.getUser().getFirstName());
             studentDetailDTO.setLastName(student.getUser().getLastName());
             studentDetailDTO.setEmail(student.getUser().getEmail());
             studentDetailDTO.setPhone(student.getUser().getPhone());

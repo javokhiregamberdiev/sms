@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
         user.setEmail(userDTO.getEmail());
-        user.setPhone(userDTO.getPhone());
         if (userDTO.getRoleIds() != null && !userDTO.getRoleIds().isEmpty()) {
             user.setRoles(roleRepository.findByIdIn(userDTO.getRoleIds()));
         }
@@ -52,7 +51,6 @@ public class UserServiceImpl implements UserService {
             user.setFirstName(userDTO.getFirstName());
             user.setLastName(userDTO.getLastName());
             user.setEmail(userDTO.getEmail());
-            user.setPhone(userDTO.getPhone());
             if (userDTO.getRoleIds() != null && !userDTO.getRoleIds().isEmpty()) {
                 user.setRoles(roleRepository.findByIdIn(userDTO.getRoleIds()));
             }
