@@ -18,7 +18,7 @@ public class StudentManagementSystemApplication {
 
     private static void logApplicationStartup(Environment env) {
         log.info("""
-                        \n----------------------------------------------------------
+                        ----------------------------------------------------------
                         \tApplication name :{}
                         \tSwagger URL: {}
                         \tJava version: {}
